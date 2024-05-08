@@ -4,9 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [],
-  "author": "dumpdusty",  
-  "license": "ISC"
+  "author": "dumpdusty",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "@babel/register": "^7.23.7",
+    "chai": "^5.1.0",
+    "mocha": "^10.4.0",
+    "supertest": "^7.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
 }
