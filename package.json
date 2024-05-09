@@ -13,11 +13,11 @@
     "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.5",
     "@babel/register": "^7.23.7",
-    "chai": "^5.1.0",
+    "chai": "^4.4.1",
     "mocha": "^10.4.0",
     "supertest": "^7.0.0"
   },
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "prettier": "3.2.5"
   }
 }
