@@ -1,13 +1,12 @@
-import request from 'supertest';
 import { expect } from 'chai';
+import { login } from '../helpers/generalHelper';
 
 describe('AUTHENTICATION', () => {
-  describe.only('POSITIVE', () => {
     let res;
+  describe('POSITIVE', () => {
+ 
     before(async () => {
-      res = await request(process.env.BASE_URL)
-        .post('user/login')
-        .send({ email: process.env.EMAIL, password: process.env.PASSWORD });
+      res = await login(process.env.EMAIL, process.env.PASSWORD);
     });
 
     it('verify response status code', async () => {
@@ -20,34 +19,35 @@ describe('AUTHENTICATION', () => {
   });
 
   describe('NEGATIVE', () => {
-    let res;
-    before(async() => {
-        res = await request(process.env.BASE_URL)
-        .post('user/login')
-        .send({ email: process.env.INVALID, password: process.env.PASSWORD });
-    });
-    it('verify response status code', async () => {
-      expect(res.status).to.eq(400);
-    });
 
-    it('verify response body message', async () => {
-      expect(res.body.message).to.eq('Auth failed');
-    });
+    describe('login with invalid email', () => {
 
-    it('verify response status code', async () => {
-      const res = await request(process.env.BASE_URL)
-        .post('user/login')
-        .send({ email: process.env.EMAIL, password: process.env.INVALID });
+      before(async () => {
+        res = await login('invalid@test.com', process.env.PASSWORD);
+      });
 
-      expect(res.status).to.eq(400);
+      it('verify response status code', async () => {
+        expect(res.status).to.eq(400);
+      });
+
+      it('verify response body message', async () => {
+        expect(res.body.message).to.eq('Auth failed');
+      });
     });
 
-    it('verify response body message', async () => {
-      const res = await request(process.env.BASE_URL)
-        .post('user/login')
-        .send({ email: process.env.EMAIL, password: process.env.INVALID });
+    describe('login with invalid password', () => {
+        
+        before(async () => {
+          res = await login(process.env.EMAIL, 'Invalid123');
+        });
+  
+      it('verify response status code', async () => {
+        expect(res.status).to.eq(400);
+      });
 
-      expect(res.body.message).to.eq('Auth failed');
+      it('verify response body message', async () => {
+        expect(res.body.message).to.eq('Auth failed');
+      });
     });
   });
 });
