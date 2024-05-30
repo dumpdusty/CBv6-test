@@ -1,13 +1,10 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: API-CBv6-CI
+name: API-CBv6-V2-CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   auth-tests:
@@ -16,7 +13,6 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 20.x]
-
 
     steps:
       - uses: actions/checkout@v3
@@ -35,4 +31,3 @@ jobs:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: npm run test
-
