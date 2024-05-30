@@ -34,5 +34,5 @@ jobs:
           BASE_URL: ${{ secrets.BASE_URL }}
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
-        run: npm run auth-ci
+        run: npm run test
 
