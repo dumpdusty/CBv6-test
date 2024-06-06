@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 const chance = require('chance').Chance();
 import { signup } from '../helpers/generalHelper';
+import { newEmail } from '../helpers/constants';
 
 describe('SIGNUP', () => {
   let res;
@@ -45,9 +46,8 @@ describe('SIGNUP', () => {
     });
 
     describe('create user without first name', () => {
-      const newEmail = 'user_' + Date.now() + '@pirate.com';
       before(async () => {
-        res = await signup('', chance.last(), newEmail);
+        res = await signup('', chance.last(), newEmail());
       });
 
       it('verify status code', async () => {
