@@ -26,8 +26,6 @@ describe('SIGNUP', () => {
   });
 
   describe('NEGATIVE', () => {
-    const newEmail = 'user_' + Date.now() + '@pirate.com';
-
     describe('create user with existing email', () => {
       before(async () => {
         res = await signup(
@@ -47,6 +45,7 @@ describe('SIGNUP', () => {
     });
 
     describe('create user without first name', () => {
+      const newEmail = 'user_' + Date.now() + '@pirate.com';
       before(async () => {
         res = await signup('', chance.last(), newEmail);
       });
