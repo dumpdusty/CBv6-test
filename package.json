@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "single": "npx mocha ./test/auth.spec.js"
+    "single": "npx mocha ./test/register.spec.js"
   },
   "keywords": [],
   "author": "dumpdusty",
@@ -20,6 +20,7 @@
     "supertest": "^7.0.0"
   },
   "devDependencies": {
+    "chance": "^1.1.11",
     "colors": "^1.4.0",
     "prettier": "3.2.5"
   }
