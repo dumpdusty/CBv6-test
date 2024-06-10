@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "single": "npx mocha ./test/signup.spec.js"
+    "single": "npx mocha ./test/auth.spec.js"
   },
   "keywords": [],
   "author": "dumpdusty",

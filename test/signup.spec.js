@@ -16,7 +16,7 @@ describe('SIGNUP', () => {
         newEmail
       );
     });
-
+    
     it('verify status code', async () => {
       expect(res.status).to.eq(201);
     });
