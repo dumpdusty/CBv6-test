@@ -1,4 +1,3 @@
-import request from 'supertest';
 import { expect } from 'chai';
 const chance = require('chance').Chance();
 import { register } from '../helpers/generalHelper';
@@ -56,6 +55,32 @@ describe('REGISTER', () => {
       });
       it('verify response message', async () => {
         expect(res.body.message).contain('not created');
+      });
+    });
+
+    describe('register without email', () => {
+      const noEmailData = { ...signUpBody, email: ''};
+      before(async () => {
+        res = await register(noEmailData);
+      });
+      it('verify status code', () => {
+        expect(res.status).to.eq(404);
+      });
+      it('verify response message', async () => {
+        expect(res.body.message).contain('not created');
+      });
+    });
+
+    describe('register without password', () => {
+      const noPasswordData = { ...signUpBody, password: '', email: newEmail() };
+      before(async () => {
+        res = await register(noPasswordData);
+      });
+      it('verify status code', () => {
+        expect(res.status).to.eq(400);
+      });
+      it('verify response message', async () => {
+        expect(res.body.message).eq('Wrong password format');
       });
     });
 

@@ -48,7 +48,6 @@ describe('SIGNUP', () => {
     describe('create user without first name', () => {
       before(async () => {
         res = await signup('', chance.last(), newEmail());
-        console.log(res.request._data);
       });
 
       it('verify status code', async () => {
@@ -63,7 +62,6 @@ describe('SIGNUP', () => {
     describe('create user without last name', () => {
       before(async () => {
         res = await signup(chance.first(), '', newEmail());
-        console.log(res.request._data);
       });
 
       it('verify status code', async () => {
@@ -78,7 +76,6 @@ describe('SIGNUP', () => {
     describe('create user without email', () => {
       before(async () => {
         res = await signup(chance.first(), chance.last(), '');
-        console.log(res.request._data);
       });
 
       it('verify status code', async () => {
@@ -93,7 +90,6 @@ describe('SIGNUP', () => {
     describe('create user without password', () => {
       before(async () => {
         res = await signup(chance.first(), chance.last(), newEmail(), '');
-        console.log(res.request._data);
       });
 
       it('verify status code', async () => {
