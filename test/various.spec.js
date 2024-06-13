@@ -31,7 +31,7 @@ describe('verify email trim on signup', () => {
 3. confirm email
 4. login
 */
-describe.only('email confirmation', () => {
+describe('email confirmation', () => {
     let res, str, endPoint
     const newEmail = 'pirate' + Date.now() + '@pirate.com';
     it('verify response status code', async() => {
