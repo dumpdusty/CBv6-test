@@ -15,6 +15,7 @@ describe('SIGNUP', () => {
         chance.last(),
         newEmail
       );
+      console.log(res.request._data)
     });
     
     it('verify status code', async () => {
