@@ -4,7 +4,7 @@ import { login } from '../helpers/generalHelper';
 
 describe('AUTHENTICATION', () => {
     let res;
-  describe.only('POSITIVE', () => {
+  describe('POSITIVE', () => {
  
     before(async () => {
       res = await login(process.env.EMAIL, process.env.PASSWORD);

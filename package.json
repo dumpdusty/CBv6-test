@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --spec test/*.spec.js",
-    "single": "npx mocha ./test/register.spec.js"
+    "test": "npx mocha --spec test/**/*.spec.js",
+    "single": "npx mocha ./test/various.spec.js"
   },
   "keywords": [],
   "author": "dumpdusty",
