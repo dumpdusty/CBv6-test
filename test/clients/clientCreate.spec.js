@@ -25,6 +25,25 @@ describe('Create client POSITIVE', () => {
   });
 
   describe('Create client with required data only', () => {
+    before(async() => {
+      res = await Client.create(chance.name(), chance.phone());
+    });
+
+  it('verify status code', async () => {
+      expect(res.statusCode).to.eq(200);
+    });
+
+    it('verify response message', async () => {
+      expect(res.body.message).to.eq('Client created');
+    });
+
+    it('verify response has a payload', async () => {
+      expect(res.body.payload).to.not.be.empty;
+      expect(res.body.payload).to.be.a('string');
+    });
+  });
+
+  describe('Create client with required data only', () => {
     before(async () => {
         res = await Client.create(chance.name(), chance.phone());
       });
