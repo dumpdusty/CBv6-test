@@ -1,7 +1,7 @@
 import request from 'supertest';
 const chance = require('chance').Chance();
 
-export function create(name, phone, email='', description=''){
+export function create(name=chance.name(), phone=chance.phone(), email='', description=''){
     return request(process.env.BASE_URL)
         .post('client')
         .set('Authorization', process.env.TOKEN)
