@@ -34,7 +34,7 @@ describe('verify email trim on signup', () => {
 describe('email confirmation', () => {
     let res, str, endPoint
     const newEmail = 'pirate' + Date.now() + '@pirate.com';
-    it('verify response status code', async() => {
+    it('role changed to verified', async() => {
 
         // signup call
         await generalHelper.signup('Jack', 'Sparrow', newEmail, process.env.PASSWORD);
@@ -54,7 +54,7 @@ describe('email confirmation', () => {
         endPoint = str.body.payload.items[0].message.split('\n')[4].split('https://clientbase.us')[1]
 
         // confirm email
-       await request('https://clientbase-server.herokuapp.com').get(endPoint).send()
+       await request('https://clientbase-server-edu-dae6cac55393.herokuapp.com').get(endPoint).send()
 
 
         // login with confirmed email

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx mocha --spec test/*.spec.js",
-    "single": "npx mocha ./test/clients/clientGetAll.spec.js"
+    "single": "npx mocha ./test/various.spec.js"
   },
   "keywords": [],
   "author": "dumpdusty",
