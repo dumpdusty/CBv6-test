@@ -8,7 +8,7 @@ describe('REGISTER', () => {
   describe('register POSITIVE', () => {
     before(async () => {
       res = await register(signUpBody);
-      console.log(res.request._data);
+      // console.log(res.request._data);
     });
 
     it('verify status code', async () => {

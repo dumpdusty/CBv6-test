@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx mocha --spec test/*.spec.js",
+    "test": "npx mocha --spec test/**/*.spec.js",
     "single": "npx mocha ./test/various.spec.js"
   },
   "keywords": [],

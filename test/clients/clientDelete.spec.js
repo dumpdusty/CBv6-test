@@ -14,7 +14,6 @@ describe('DELETE CLIENT', () => {
         });
 
         it('verify status code', async () => {
-            console.log(res.body);
             expect(res.status).to.eq(200);
         });
     });
