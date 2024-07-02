@@ -20,7 +20,7 @@ describe('Create client POSITIVE', () => {
     });
 
     it('verify response message', async () => {
-      expect(res.body.m.length);o.eq('Client created');
+      expect(res.body.message).eq('Client created');
     });
 
     it('verify response has a payload', async () => {
