@@ -1,7 +1,7 @@
 import request from 'supertest';
 const chance = require('chance').Chance();
 
-export function create(name=chance.name(), phone=chance.phone(), email='', description=''){
+export function createClient(name=chance.name(), phone=chance.phone(), email='', description=''){
     return request(process.env.BASE_URL)
         .post('client')
         .set('Authorization', process.env.TOKEN)
@@ -13,14 +13,14 @@ export function create(name=chance.name(), phone=chance.phone(), email='', descr
         });
 }
 
-export function getAll(){
+export function getAllClients(token = process.env.TOKEN){
     return request(process.env.BASE_URL)
     .post('client/search')
-    .set('Authorization', process.env.TOKEN)
-    .send({limit: 20})
+    .set('Authorization', token)
+    .send({limit: 50})
 }
 
-export function deleteSingle(id){
+export function deleteClient(id){
     return request(process.env.BASE_URL)
     .delete('client/' + id)
     .set('Authorization', process.env.TOKEN)
