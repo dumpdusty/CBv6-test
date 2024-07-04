@@ -4,6 +4,15 @@ import * as clientHelper from '../../helpers/clientHelper';
 
 describe('Create client POSITIVE', () => {
   let res;
+  let clientsList = []
+  after(async() => {
+    // const clientsList = ((await clientHelper.getAllClients()).body.payload.items)
+
+    for(let i=0; i< clientsList.length; i++){
+      await clientHelper.deleteClient(clientsList[i]._id)
+    }
+
+  });
 
   describe('Create client with all data', () => {
     before(async () => {
@@ -13,6 +22,8 @@ describe('Create client POSITIVE', () => {
         chance.email(),
         chance.sentence()
       );
+      clientsList.push(res.body.payload);
+    
     });
 
     it('verify status code', async () => {
@@ -32,6 +43,7 @@ describe('Create client POSITIVE', () => {
   describe('Create client with required data only', () => {
     before(async () => {
       res = await  clientHelper.createClient();
+      clientsList.push(res.body.payload);
     });
 
     it('verify status code', async () => {
