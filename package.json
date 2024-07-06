@@ -1,11 +1,13 @@
 {
   "name": "cbv6-test",
   "version": "1.0.0",
-  "description": "",
+  "description": "API tests for Cbv6",
   "main": "index.js",
   "scripts": {
     "test": "npx mocha --spec test/**/*.spec.js",
-    "single": "npx mocha ./test/various.spec.js"
+    "single": "npx mocha ./test/various.spec.js",
+    "format": "npx prettier --write .",
+    "lint": "prettier ./ --check"
   },
   "keywords": [],
   "author": "dumpdusty",
