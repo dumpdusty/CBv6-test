@@ -1,0 +1,1076 @@
+{
+	"info": {
+		"_postman_id": "ed6bff76-cee7-43fb-a6b2-fce9ab6179f4",
+		"name": "CBv6",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20201535"
+	},
+	"item": [
+		{
+			"name": "General",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// const res = JSON.parse(responseBody)\r",
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.environment.set('token', res.payload.token)\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Auth success')\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response contains token', () =>{\r",
+											"    pm.expect(res.payload).to.haveOwnProperty('token')\r",
+											"})\r",
+											"\r",
+											"pm.test('verify token is a string', () =>{\r",
+											"    pm.expect(res.payload.token).to.be.a('string')\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Auth-invalid-password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// const res = JSON.parse(responseBody)\r",
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.environment.set('token', res.payload.token)\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(400)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Auth failed')\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password1}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Auth-invalid-email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// const res = JSON.parse(responseBody)\r",
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.environment.set('token', res.payload.token)\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(400)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Auth failed')\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{email1}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Registration",
+					"item": [
+						{
+							"name": "Registration",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// const res = JSON.parse(responseBody)\r",
+											"const res = pm.response.json()\r",
+											"const req = JSON.parse(pm.request.body)\r",
+											"\r",
+											"pm.environment.set('testEmail', req.email)\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(201)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).contain('successfully')\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.clear()"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"companyName\": \"{{$randomCompanyName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Registration-required-only",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// const res = JSON.parse(responseBody)\r",
+											"const res = pm.response.json()\r",
+											"const req = JSON.parse(pm.request.body)\r",
+											"\r",
+											"pm.environment.set('testEmail', req.email)\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(201)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).contain('successfully')\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.clear()"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Registration-existing-email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// const res = JSON.parse(responseBody)\r",
+											"const res = pm.response.json()\r",
+											"const req = JSON.parse(pm.request.body)\r",
+											"\r",
+											"pm.environment.set('testEmail', req.email)\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(409)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).contain('e-mail exists')\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.clear()"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"companyName\": \"{{$randomCompanyName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Registration-no-last-name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// const res = JSON.parse(responseBody)\r",
+											"const res = pm.response.json()\r",
+											"const req = JSON.parse(pm.request.body)\r",
+											"\r",
+											"pm.environment.set('testEmail', req.email)\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(404)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).contain('not created')\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.clear()"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Registration-no-first-name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// const res = JSON.parse(responseBody)\r",
+											"const res = pm.response.json()\r",
+											"const req = JSON.parse(pm.request.body)\r",
+											"\r",
+											"pm.environment.set('testEmail', req.email)\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(404)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).contain('not created')\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.clear()"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "emailSearch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json()\r",
+									"\r",
+									"pm.environment.set('clientId', res.payload.items[res.payload.items.length-1]._id)\r",
+									"pm.environment.set('clientToDelete', res.payload.items[0]._id)\r",
+									"\r",
+									"\r",
+									"pm.test('verify response status code', () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})\r",
+									"\r",
+									"pm.test('verify response message', () =>{\r",
+									"    pm.expect(res.message).to.eq('EmailSearch ok')\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user1713465485060@pirate.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/email/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"email",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "createClientRequired",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Client created')\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/client",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"client"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createClientAllData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Client created')\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"description\": \"{{$randomJobDescriptor}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/client",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"client"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createClientWithoutPhone",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/*\r",
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(400)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Client create error')\r",
+											"})\r",
+											"*/"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{$randomFullName}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/client",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"client"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createClientWithoutName",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(400)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Client create error')\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/client",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"client"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get",
+					"item": [
+						{
+							"name": "clientGetAll",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.environment.set('clientId', res.payload.items[res.payload.items.length-1]._id)\r",
+											"pm.environment.set('clientToDelete', res.payload.items[0]._id)\r",
+											"\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('ClientSearch ok')\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v6/client/search",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"client",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "clientGetSingle",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Get Client by id ok')\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v6/client/{{clientId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"client",
+										"{{clientId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"item": [
+						{
+							"name": "updateClient",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Client updated')\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"5468761498\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v6/client/668c5d82f4dbb3ad04cf2cc2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"client",
+										"668c5d82f4dbb3ad04cf2cc2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "clientDelete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const res = pm.response.json()\r",
+											"\r",
+											"pm.test('verify response status code', () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test('verify response message', () =>{\r",
+											"    pm.expect(res.message).to.eq('Client deleted')\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v6/client/{{clientToDelete}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v6",
+										"client",
+										"{{clientToDelete}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
