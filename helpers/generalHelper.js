@@ -32,3 +32,20 @@ export function emailSearch(email) {
     .post('/email/search')
     .send({ email });
 }
+
+export function resetRequest(email){
+  return request(process.env.BASE_URL)
+  .post('user/password/reset/request')
+  .send({ email });
+}
+
+export function changePassword(password, hash, userId){
+  return request(process.env.BASE_URL)
+  .post('user/password/reset/new')
+  .send({ password, hash, userId });
+}
+
+export function deleteUser(userId){
+  return request(process.env.BASE_URL)
+  .delete(`user/${userId}`)
+}
