@@ -7,7 +7,10 @@
     "test": "npx mocha --spec test/**/*.spec.js",
     "single": "npx mocha ./test/various.spec.js",
     "format": "npx prettier --write .",
-    "lint": "prettier ./ --check"
+    "lint": "prettier ./ --check",
+    "lint": "prettier ./ --check",
+    "pmrun": "newman run postman/CBv6.postman_collection.json -e postman/prod.postman_environment.json",
+    "pmreport": "newman run postman/CBv6.postman_collection.json -e postman/prod.postman_environment.json -r htmlextra --reporter-htmlextra-export PmReports/pmReport.html"
   },
   "keywords": [],
   "author": "dumpdusty",
