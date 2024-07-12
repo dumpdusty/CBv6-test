@@ -1,4 +1,3 @@
-const chance = require('chance').Chance();
 import { expect } from 'chai';
 import * as clientHelper from '../../helpers/clientHelper';
 
@@ -16,12 +15,7 @@ describe('Create client POSITIVE', () => {
 
   describe('Create client with all data', () => {
     before(async () => {
-      res = await clientHelper.createClient(
-        chance.name(),
-        chance.phone(),
-        chance.email(),
-        chance.sentence()
-      );
+      res = await clientHelper.createClient(clientHelper.clientData);
       clientsList.push(res.body.payload);
     
     });
@@ -42,7 +36,7 @@ describe('Create client POSITIVE', () => {
 
   describe('Create client with required data only', () => {
     before(async () => {
-      res = await  clientHelper.createClient();
+      res = await  clientHelper.createClient({...clientHelper.clientData, email: ''});
       clientsList.push(res.body.payload);
     });
 
@@ -65,7 +59,7 @@ describe('Create client NEGATIVE', () => {
   let res;
   describe('create client w/o name', () => {
     before(async () => {
-      res = await  clientHelper.createClient('');
+      res = await  clientHelper.createClient({...clientHelper.clientData, name: ''});
     });
 
     it('verify status code', async () => {
@@ -79,7 +73,7 @@ describe('Create client NEGATIVE', () => {
 
   describe.skip('create client w/o phone', () => {
     before(async () => {
-      res = await  clientHelper.createClient(chance.name(), '');
+      res = await  clientHelper.createClient({...clientHelper.clientData, phone: ''});
     });
 
     it('verify status code', async () => {
