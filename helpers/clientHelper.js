@@ -20,6 +20,24 @@ export function getAllClients(token = process.env.TOKEN){
     .send({limit: 50})
 }
 
+export function getClientById(id){
+  return request(process.env.BASE_URL)
+    .get('client/' + id)
+    .set('Authorization', process.env.TOKEN)
+}
+
+export function updateClient(id, name, phone, email='', description=''){
+  return request(process.env.BASE_URL)
+    .patch('client/' + id)
+    .set('Authorization', process.env.TOKEN)
+    .send({
+      name,
+      phone,
+      email,
+      description
+    })
+}
+
 export function deleteClient(id){
     return request(process.env.BASE_URL)
     .delete('client/' + id)
