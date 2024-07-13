@@ -1,7 +1,7 @@
 import * as userHelper from '../../helpers/userHelper';
 import { expect } from 'chai';
 
-describe.only('GET USER', () => {
+describe('GET USER', () => {
   let resLogin, resGet, userId;
 
   describe('POSITIVE - Get user by id', () => {
