@@ -9,13 +9,8 @@ describe('UPDATE CLIENT', () => {
     getClient,
     getUpdClient;
 
-  let name = chance.name();
-  let phone = chance.phone();
-  let email = chance.email();
-  let description = chance.sentence();
-
   before(async() =>{
-    resClientCreate = await clientHelper.createClient( name, phone, email, description);
+    resClientCreate = await clientHelper.createClient(clientHelper.clientData);
     idClient = resClientCreate.body.payload;
   })
 
@@ -26,7 +21,7 @@ describe('UPDATE CLIENT', () => {
   describe('UPDATE CLIENT POSITIVE', () => {
     before(async () => {
       getClient = await clientHelper.getClientById(idClient);
-      updatedClient = await clientHelper.updateClient( idClient,'UpdatedName','1258556547','testupd@gmail.com','Test sentence' );
+      updatedClient = await clientHelper.updateClient( idClient,{...clientHelper.clientData, name: 'UpdatedName', phone: '1258556547', email: 'testupd@gmail.com'});
       getUpdClient = await clientHelper.getClientById(idClient);
     });
 
@@ -61,7 +56,7 @@ describe('UPDATE CLIENT', () => {
     describe('UPDATE CLIENT WITHOUT REQUIRED NAME FIELD', () =>{
       before(async () => {
         getClient = await clientHelper.getClientById(idClient);
-        updatedClient = await clientHelper.updateClient( idClient,'','1258556547','testupd@gmail.com','Test sentence' );
+        updatedClient = await clientHelper.updateClient( idClient,{...clientHelper.clientData, name:'',phone: '1258556547',email: 'testupd@gmail.com'});
         getUpdClient = await clientHelper.getClientById(idClient);
       });
 
@@ -85,7 +80,7 @@ describe('UPDATE CLIENT', () => {
     describe.skip('UPDATE CLIENT WITHOUT REQUIRED PHONE FIELD', () =>{
       before(async () => {
         getClient = await clientHelper.getClientById(idClient);
-        updatedClient = await clientHelper.updateClient( idClient,'UpdatedName','','testupd@gmail.com','Test sentence' );
+        updatedClient = await clientHelper.updateClient( idClient,{...clientHelper.clientData, name:'UpdatedName',phone: '', email: 'testupd@gmail.com'} );
         getUpdClient = await clientHelper.getClientById(idClient);
       });
 

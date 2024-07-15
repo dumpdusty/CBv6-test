@@ -28,16 +28,11 @@ export function getClientById(id){
     .set('Authorization', process.env.TOKEN)
 }
 
-export function updateClient(id, name, phone, email='', description=''){
+export function updateClient(id, clientData){
   return request(process.env.BASE_URL)
     .patch('client/' + id)
     .set('Authorization', process.env.TOKEN)
-    .send({
-      name,
-      phone,
-      email,
-      description
-    })
+    .send(clientData)
 }
 
 export function deleteClient(id){
