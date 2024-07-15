@@ -1,16 +1,18 @@
 import request from 'supertest';
 const chance = require('chance').Chance();
 
-export function createClient(name=chance.name(), phone=chance.phone(), email='', description=''){
+
+export const clientData = {
+    name: chance.name(),
+    phone: chance.phone(),
+    email: chance.email()
+};
+
+export function createClient(clientData) {
     return request(process.env.BASE_URL)
         .post('client')
         .set('Authorization', process.env.TOKEN)
-        .send({
-          name,
-          phone,
-          email,
-          description,
-        });
+        .send(clientData);
 }
 
 export function getAllClients(token = process.env.TOKEN){
@@ -41,5 +43,11 @@ export function updateClient(id, name, phone, email='', description=''){
 export function deleteClient(id){
     return request(process.env.BASE_URL)
     .delete('client/' + id)
+    .set('Authorization', process.env.TOKEN)
+}
+
+export function getClient(id){
+    return request(process.env.BASE_URL)
+    .get('client/' + id)
     .set('Authorization', process.env.TOKEN)
 }
