@@ -10,13 +10,12 @@ describe('GET USER', () => {
       resLogin = await userHelper.login(userHelper.userData.email, userHelper.userData.password);
       userId = resLogin.body.payload.userId;
       resGet = await userHelper.getUser(userId);
-      // console.log(res);
-      // console.log(resGet.body);
     });
 
-    after(async () => {
-      await userHelper.deleteUser(userId);
-    });
+      //  Given that the user cannot be deleted this request is noticed
+      //  after(async () => {
+      //  await userHelper.deleteUser(userId);
+      // });
 
     it('verify status code', async () => {
       expect(resGet.status).to.eq(200);
@@ -40,16 +39,14 @@ describe('GET USER', () => {
       expect(resGet.body.payload.roles).to.include('new');
     });
   });
+
   describe('NEGATIVE - Get user with invalid id', () => {
     before(async () => {
       await userHelper.register(userHelper.userData);
       resLogin = await userHelper.login(userHelper.userData.email, userHelper.userData.password);
       userId = resLogin.body.payload.userId;
-      resGet = await userHelper.getUser('');
-    });
-
-    after(async () => {
-        await userHelper.deleteUser(userId);
+      const invalidUserId = userId + '1';
+      resGet = await userHelper.getUser(invalidUserId);
     });
 
     it('verify status code', async () => {
@@ -57,19 +54,16 @@ describe('GET USER', () => {
     });
 
     it('verify response message', async () => {
-      expect(resGet.body.message).to.eq('Permission denied');
+      expect(resGet.body.message).to.eq('User get by ID. Error');
     });
   });
+  
   describe('NEGATIVE - Get user without authorization', () => {
     before(async () => {
       await userHelper.register(userHelper.userData);
       resLogin = await userHelper.login(userHelper.userData.email, userHelper.userData.password);
       userId = resLogin.body.payload.userId;
       resGet = await userHelper.getUserNoAuth(userId);
-    });
-
-    after(async () => {
-        await userHelper.deleteUser(userId);
     });
 
     it('verify status code', async () => {
