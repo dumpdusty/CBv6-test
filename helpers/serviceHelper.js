@@ -3,10 +3,10 @@ const chance = require('chance').Chance();
 
 export function serviceData (vendorId) {
   return {
-    clientPrice: chance.integer({ min: 10, max: 800 }),
+    clientPrice: chance.integer({ min: 0}),
     name: chance.name(),
     vendor: vendorId,
-    vendorPrice: chance.integer({ min: 10, max: 800 }),
+    vendorPrice: chance.integer({ min: 0}),
   }
 }
 
