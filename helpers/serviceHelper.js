@@ -1,22 +1,20 @@
 const chance = require('chance').Chance();
 import request from 'supertest';
 import 'dotenv/config';
-import * as constants from './constants';
 
-export const serviceData = async() => {
+export function serviceData(vendorId) {
   return {
-    name: chance.sentence({ words: 2 }),
-    vendor: await constants.vendorId(),
-    clientPrice: chance.prime(),
-    vendorPrice: chance.prime(),
-    description: chance.sentence({ words: 5 }),
+    name: chance.name(),
+    vendor: vendorId,
+    clientPrice: chance.integer({min: 0}),
+    vendorPrice: chance.integer({min: 0}),
   };
 };
-export function createService(serviceData) {
+export function createService(data) {
   return request(process.env.BASE_URL)
     .post('service')
     .set('Authorization', process.env.TOKEN)
-    .send(serviceData);
+    .send(data);
 }
 
 export function getAllServices(token) {

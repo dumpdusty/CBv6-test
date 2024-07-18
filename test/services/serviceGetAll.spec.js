@@ -3,16 +3,15 @@ import * as vendorHelper from '../../helpers/vendorHelper';
 import { expect } from 'chai';
 
 describe('A user should get a list of services', () => {
-  let res, serviceRes;
+  let res, serviceId, vendorId;
   before(async () => {
-    serviceRes = await serviceHelper.createService(await serviceHelper.serviceData());
-    
+    vendorId = (await vendorHelper.createVendor(vendorHelper.vendorData)).body.payload;
+    serviceId = (await serviceHelper.createService(serviceHelper.serviceData(vendorId))).body.payload;
     res = await serviceHelper.getAllServices(process.env.TOKEN);
-    
   });
   after(async() => {
-    await serviceHelper.deleteService(serviceRes.body.payload)
-    await vendorHelper.deleteVendor(serviceRes.request['_data'].vendor)
+    await serviceHelper.deleteService(serviceId)
+    await vendorHelper.deleteVendor(vendorId)
   });
   describe('POSITIVE TESTS', () => {
     it('verify response status code ', async () => {
