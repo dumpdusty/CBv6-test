@@ -6,44 +6,32 @@ import * as serviceHelper from '../../helpers/serviceHelper'
 import * as orderHelper from '../../helpers/orderHelper'
 
 describe('CREATE ORDER', () => {
-  let resClient, clientId, clientList = [], resService, serviceData, serviceId, serviceList = [], resVendor, vendorId, vendorList = [], resOrder, getOrder
-
+  let resClient, clientId, resService, serviceData, serviceId, resVendor, vendorId, resOrder, getOrder
+  console.log(serviceId);
   before( async () =>{
     resClient = await clientHelper.createClient(clientHelper.clientData)
     clientId = resClient.body.payload
-    clientList.push(clientId)
 
     resVendor = await vendorHelper.createVendor(vendorHelper.vendorData)
     vendorId = resVendor.body.payload
-    vendorList.push(vendorId)
 
     serviceData = serviceHelper.serviceData(vendorId)
     resService = await serviceHelper.createService(serviceData)
     serviceId = resService.body.payload
-    serviceList.push(serviceId)
-
-    resOrder = await orderHelper.createOrder(orderHelper.orderData(clientId, serviceId))
-    getOrder = await orderHelper.getOrder(resOrder.body.payload)
   })
 
-
   after(async() =>{
-
-    for (let i = 0; i < clientList.length; i++) {
-      await clientHelper.deleteClient(clientList[i]);
-    }
-    for (let i = 0; i < vendorList.length; i++) {
-      await vendorHelper.deleteVendor(vendorList[i]);
-    }
-    for (let i = 0; i < serviceList.length; i++) {
-      await serviceHelper.deleteService(serviceList[i]);
-    }
-    await orderHelper.deleteOrder(resOrder.body.payload)
-
+      await clientHelper.deleteClient(clientId);
+      await vendorHelper.deleteVendor(vendorId);
+      await serviceHelper.deleteService(serviceId);
+      await orderHelper.deleteOrder(resOrder.body.payload)
   })
 
   describe('CREATE ORDER POSITIVE', () => {
-
+    before(async () =>{
+      resOrder = await orderHelper.createOrder(orderHelper.orderData(clientId, serviceId))
+      getOrder = await orderHelper.getOrder(resOrder.body.payload)
+})
     it('verify status code', async () => {
       expect(resOrder.statusCode).to.eq(200);
     });
@@ -68,13 +56,48 @@ describe('CREATE ORDER', () => {
 
   describe('CREATE ORDER NEGATIVE', () => {
     describe('CANT CREATE ORDER WITHOUT CLIENT ID', () => {
+      before(async () =>{
+        resOrder = await orderHelper.createOrder(orderHelper.orderData('', serviceId))
+        getOrder = await orderHelper.getOrder(resOrder.body.payload)
+      })
 
+      it('verify status code', async () => {
+        expect(resOrder.statusCode).to.eq(400);
+      });
+
+      it('verify response message', async () => {
+        expect(resOrder.body.message).to.eq('Order create error');
+      });
+
+      it('verify if order creation - false', async () => {
+        expect(resOrder.body.success).to.eq(false);
+      });
+
+      it('verify if order does not exist in Data Base', async () => {
+        expect(getOrder.body.message).to.eq('No order for provided id');
+      });
      })
-    // describe('CREATE ORDER NEGATIVE', () => {
-    //
-    // })
-    // describe('CREATE ORDER NEGATIVE', () => {
-    //
-    // })
+
+    describe('CANT CREATE ORDER WITHOUT SERVICE ID', () => {
+      before(async () =>{
+        resOrder = await orderHelper.createOrder(orderHelper.orderData(clientId, ''))
+        getOrder = await orderHelper.getOrder(resOrder.body.payload)
+      })
+      it('verify status code', async () => {
+        expect(resOrder.statusCode).to.eq(400);
+      });
+
+      it('verify response message', async () => {
+        expect(resOrder.body.message).to.eq('Order create error');
+      });
+
+      it('verify if order creation - false', async () => {
+        expect(resOrder.body.success).to.eq(false);
+      });
+
+      it('verify if order does not exist in Data Base', async () => {
+        expect(getOrder.body.message).to.eq('No order for provided id');
+      });
+    })
   })
 })
