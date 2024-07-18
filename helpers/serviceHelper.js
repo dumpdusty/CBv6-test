@@ -17,6 +17,11 @@ export function createService(data) {
     .send(data);
 }
 
+export function getAllServices(token) {
+  return request(process.env.BASE_URL)
+    .post('service/search')
+    .set('Authorization', token);
+}
 
 export function deleteService(id){
   return request(process.env.BASE_URL)
