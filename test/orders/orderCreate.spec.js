@@ -7,7 +7,7 @@ import * as orderHelper from '../../helpers/orderHelper'
 
 describe('CREATE ORDER', () => {
   let resClient, clientId, resService, serviceData, serviceId, resVendor, vendorId, resOrder, getOrder
-  console.log(serviceId);
+
   before( async () =>{
     resClient = await clientHelper.createClient(clientHelper.clientData)
     clientId = resClient.body.payload
