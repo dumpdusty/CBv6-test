@@ -6,7 +6,7 @@ const chance = require('chance').Chance();
 describe('A user should get an information about particular service', () => {
   let res, resService, vendorId;
   before(async () => {
-    res = await serviceHelper.getByIdService(await constants.serviceId(),process.env.TOKEN);
+    res = await serviceHelper.getServiceById(await constants.serviceId(),process.env.TOKEN);
     vendorId = res.body.payload.vendor['_id'];
   });
   after(async () => {
@@ -29,17 +29,22 @@ describe('A user should get an information about particular service', () => {
       expect(res.res.statusMessage).to.eq('OK');
     });
     it('verify response payload has keys', () => {
-      expect(res.body.payload).to.have.any.keys(
+      expect(res.body.payload).to.have.all.keys(
         '_id',
         'name',
         'clientPrice',
-        'vendorPrice'
+        'vendorPrice',
+        'vendor',
+        'owner',
+        'companyAccount',
+        'createdAt',
+        'updatedAt',
       );
     });
   });
   describe('NEGATIVE TESTS WITH INVALID ID', () => {
     before(async () => {
-      resService = await serviceHelper.getByIdService(chance.fbid(),process.env.TOKEN);
+      resService = await serviceHelper.getServiceById(chance.fbid(),process.env.TOKEN);
     });
     it('verify status code', () => {
       expect(resService.statusCode).to.equal(400);
@@ -53,7 +58,7 @@ describe('A user should get an information about particular service', () => {
   });
   describe('NEGATIVE TESTS W/O TOKEN', () => {
     before(async () => {
-      res = await serviceHelper.getByIdService(res.body.payload['_id'],'');
+      res = await serviceHelper.getServiceById(res.body.payload['_id'],'');
     });
     it('verify status code', () => {
       expect(res.statusCode).to.equal(400);
@@ -68,7 +73,7 @@ describe('A user should get an information about particular service', () => {
   describe('NEGATIVE TESTS WITH DELETED SERVICE', () => {
     before(async () => {
       await serviceHelper.deleteService(res.req.path.split('/')[3]);
-      resService = await serviceHelper.getByIdService(res.req.path.split('/')[3], process.env.TOKEN);
+      resService = await serviceHelper.getServiceById(res.req.path.split('/')[3], process.env.TOKEN);
     });
     it('verify response message after removing the service', () => {
       expect(resService.body.message).to.equal('No service for provided id');
