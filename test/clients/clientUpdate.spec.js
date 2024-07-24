@@ -18,6 +18,7 @@ describe('UPDATE CLIENT', () => {
     await clientHelper.deleteClient(idClient)
   })
 
+
   describe('UPDATE CLIENT POSITIVE', () => {
     before(async () => {
       getClient = await clientHelper.getClientById(idClient);

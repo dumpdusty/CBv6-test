@@ -1,4 +1,4 @@
-const chance = require('chance').Chance();
+   const chance = require('chance').Chance();
 
 export const newEmail = () => {
   return 'user_' + Date.now() + '@pirate.com';
