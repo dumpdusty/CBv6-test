@@ -16,7 +16,7 @@ describe('GET ORDER BY ID', () =>{
     await clientHelper.deleteClient(clientId);
     await vendorHelper.deleteVendor(vendorId);
     for(let i = 0; i < orderList; i++){
-      await orderHelper.deleteOrder(orderId)
+      await orderHelper.deleteOrder(orderList[i])
     }
   })
   describe('GET ORDER BY ID - POSITIVE', () =>{
