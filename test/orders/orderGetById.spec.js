@@ -5,7 +5,7 @@ import * as vendorHelper from '../../helpers/vendorHelper';
 import * as serviceHelper from '../../helpers/serviceHelper'
 
 describe('GET ORDER BY ID', () =>{
-    let orderId, orderList = [], getOrder, clientId, vendorId, serviceId
+    let orderId, orderList = [], getOrder, deletedOrder, clientId, vendorId, serviceId
   before(async() =>{
     clientId = (await clientHelper.createClient(clientHelper.clientData)).body.payload;
     vendorId = (await vendorHelper.createVendor(vendorHelper.vendorData)).body.payload
@@ -14,7 +14,7 @@ describe('GET ORDER BY ID', () =>{
   after(async () =>{
     await vendorHelper.deleteVendor(vendorId);
     await clientHelper.deleteClient(clientId);
-    await vendorHelper.deleteVendor(vendorId);
+    await serviceHelper.deleteService(serviceId);
     for(let i = 0; i < orderList; i++){
       await orderHelper.deleteOrder(orderList[i])
     }
@@ -45,8 +45,11 @@ describe('GET ORDER BY ID', () =>{
     it('verify response body structure', () => {
       expect(getOrder.body).to.have.all.keys('payload', 'message', 'success', 'fail', 'silent');
     })
-  })
 
+    it('verify returned order Id matches created one', () => {
+      expect(getOrder.body.payload._id).to.eq(orderId)
+    })
+  })
   describe('GET ORDER BY ID - NEGATIVE', () =>{
     describe('GET ORDER BY ID - WITHOUT ID', () =>{
       before(async() =>{
@@ -84,6 +87,29 @@ describe('GET ORDER BY ID', () =>{
 
       it('verify response message', () => {
         expect(getOrder.body.message).to.eq( 'API not found')
+      })
+
+      it('verify response success - false', () => {
+        expect(getOrder.body.success).to.eq(false)
+      })
+
+      it('verify response body structure', () => {
+        expect(getOrder.body).to.have.all.keys( 'message', 'success', 'fail', 'silent');
+      })
+    })
+    describe('GET ORDER BY ID - WITH NON-EXISTING ORDER ID', () =>{
+      before(async() =>{
+        orderId = (await orderHelper.createOrder(orderHelper.orderData(clientId, serviceId))).body.payload
+        deletedOrder = await orderHelper.deleteOrder(orderId)
+        getOrder = await orderHelper.getOrder(orderId)
+      })
+
+      it('verify response status', () => {
+        expect(getOrder.statusCode).to.eq(404)
+      })
+
+      it('verify response message', () => {
+        expect(getOrder.body.message).to.eq( 'No order for provided id')
       })
 
       it('verify response success - false', () => {
