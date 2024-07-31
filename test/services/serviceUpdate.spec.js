@@ -10,6 +10,7 @@ describe('SERVICE UPDATE', () => {
     service = await serviceHelper.createService(serviceHelper.serviceData(vendorId));
   });
   after(async () => {
+    await vendorHelper.deleteVendor(vendorId);
     await serviceHelper.deleteService(service);
   });
 
