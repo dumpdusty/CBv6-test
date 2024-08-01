@@ -6,20 +6,15 @@ export const companyData = {
   email: chance.email(),
 };
 
-export function getCompany(companyId) {
+export function getCompany(companyId, token = process.env.TOKEN) {
   return request(process.env.BASE_URL)
     .get(`company/${companyId}`)
-    .set('Authorization', process.env.TOKEN);
+    .set('Authorization', token);
 }
 
-export function updateCompany(companyId, companyData) {
+export function updateCompany(companyId, companyData, token = process.env.TOKEN) {
   return request(process.env.BASE_URL)
     .patch(`company/${companyId}`)
-    .set('Authorization', process.env.TOKEN)
+    .set('Authorization', token)
     .send(companyData);
 }
-
-export function getCompanyNoAuth(companyId) {
-    return request(process.env.BASE_URL)
-      .get(`company/${companyId}`)
-  }

@@ -22,9 +22,9 @@ export function login(email, password) {
       .post('user/login')
       .send({ email, password });
   }
-  // export const userId = async () => {
-  //   return (await login(userData.email, userData.password)).body.payload.userId; 
-  // }
+  export const userId = async () => {
+    return (await login(userData.email, userData.password)).body.payload.userId; 
+  }
 
   export function getUser(userId){
     return request(process.env.BASE_URL)
