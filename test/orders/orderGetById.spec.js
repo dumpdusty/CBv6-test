@@ -82,11 +82,11 @@ describe('GET ORDER BY ID', () =>{
       })
 
       it('verify response status', () => {
-        expect(getOrder.statusCode).to.eq(404)
+        expect(getOrder.statusCode).to.eq(400)
       })
 
       it('verify response message', () => {
-        expect(getOrder.body.message).to.eq( 'API not found')
+        expect(getOrder.body.message).to.eq( 'Order get error')
       })
 
       it('verify response success - false', () => {
@@ -94,7 +94,7 @@ describe('GET ORDER BY ID', () =>{
       })
 
       it('verify response body structure', () => {
-        expect(getOrder.body).to.have.all.keys( 'message', 'success', 'fail', 'silent');
+        expect(getOrder.body).to.have.all.keys( 'message', 'success', 'fail', 'payload', 'silent');
       })
     })
     describe('GET ORDER BY ID - WITH NON-EXISTING ORDER ID', () =>{
