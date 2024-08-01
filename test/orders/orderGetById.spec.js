@@ -77,8 +77,8 @@ describe('GET ORDER BY ID', () =>{
     describe('GET ORDER BY ID - WITH INVALID ID', () =>{
       before(async() =>{
         orderId = (await orderHelper.createOrder(orderHelper.orderData(clientId, serviceId))).body.payload
-        orderList.push(orderId + "+++INVALID+++")
-        getOrder = await orderHelper.getOrder('')
+        orderList.push(orderId)
+        getOrder = await orderHelper.getOrder(orderId + "+++INVALID+++")
       })
 
       it('verify response status', () => {
