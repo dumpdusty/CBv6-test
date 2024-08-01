@@ -5,16 +5,17 @@ import * as constants from '../../helpers/constants';
 
 describe('GET COMPANY BY ID', () => {
   let resGetUser, resGetCompany, companyEmail, companyName;
+  before(async () => {
+    await user.register(user.userData);
+    resGetUser = await user.getUser(await constants.userId());
+
+    companyName = resGetUser.body.payload.companyAccount.companyName;
+    companyEmail = resGetUser.body.payload.companyAccount.email;
+  })
 
   describe('POSITIVE - Get company by id', () => {
     before(async () => {
-      await user.register(user.userData);
-
-      resGetUser = await user.getUser(await constants.userId());
       resGetCompany = await company.getCompany(await constants.companyId());
-
-      companyName = resGetUser.body.payload.companyAccount.companyName;
-      companyEmail = resGetUser.body.payload.companyAccount.email;
     });
 
     it('verify status code', async () => {
@@ -37,8 +38,6 @@ describe('GET COMPANY BY ID', () => {
   describe('NEGATIVE', () => {
     describe('NEGATIVE - Get company with invalid company id', () => {
       before(async () => {
-        await user.register(user.userData);
-
         const invalidCompanyId = await constants.companyId() + '1';
 
         resGetCompany = await company.getCompany(invalidCompanyId);
@@ -63,8 +62,6 @@ describe('GET COMPANY BY ID', () => {
 
     describe('NEGATIVE - Get company without company id', () => {
         before(async () => {
-          await user.register(user.userData);
-  
           resGetCompany = await company.getCompany('');
         });
   
@@ -87,8 +84,6 @@ describe('GET COMPANY BY ID', () => {
 
     describe('NEGATIVE - Get company without authorization', () => {
       before(async () => {
-        await user.register(user.userData);
-
         resGetCompany = await company.getCompany(await constants.companyId(), 'NO_TOKEN');
       });
 
