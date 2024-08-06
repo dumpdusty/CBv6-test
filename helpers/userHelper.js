@@ -6,6 +6,7 @@ export const newEmail = () => {
   };
   
   export const userData = {
+    companyName: chance.company(),
     firstName: chance.first(),
     lastName: chance.last(),
     email: newEmail(),
@@ -20,6 +21,9 @@ export function login(email, password) {
     return request(process.env.BASE_URL)
       .post('user/login')
       .send({ email, password });
+  }
+  export const userId = async () => {
+    return (await login(userData.email, userData.password)).body.payload.userId; 
   }
 
   export function getUser(userId){
