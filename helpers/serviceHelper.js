@@ -17,7 +17,14 @@ export function createService(data) {
     .send(data);
 }
 
-export function getServiceById(serviceId, token) {    
+export function updateServiceById(id, data){
+  return request(process.env.BASE_URL)
+    .patch('service/' + id)
+    .set('Authorization', process.env.TOKEN)
+    .send(data)
+}
+
+export function getServiceById(serviceId, token) {
   return request(process.env.BASE_URL)
    .get('service/' + serviceId)
    .set('Authorization', token);
