@@ -1,5 +1,4 @@
 import request from 'supertest';
-
 const chance = require('chance').Chance();
 
 export function orderData(clientId, serviceId){
@@ -12,7 +11,6 @@ export function orderData(clientId, serviceId){
     vendorPaid: chance.integer({ min: 0})
   }
 }
-
 
 export function createOrder(data){
   return request(process.env.BASE_URL)

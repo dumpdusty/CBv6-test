@@ -1,4 +1,3 @@
-const chance = require('chance').Chance();
 import { expect } from 'chai';
 import * as clientHelper from '../../helpers/clientHelper';
 import * as vendorHelper from '../../helpers/vendorHelper';
