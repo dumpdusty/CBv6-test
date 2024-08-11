@@ -17,10 +17,10 @@ export function createService(data) {
     .send(data);
 }
 
-export function updateServiceById(id, data){
+export function updateServiceById(id, data, token){
   return request(process.env.BASE_URL)
     .patch('service/' + id)
-    .set('Authorization', process.env.TOKEN)
+    .set('Authorization', token)
     .send(data)
 }
 

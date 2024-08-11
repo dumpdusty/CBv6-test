@@ -17,7 +17,7 @@ describe('SERVICE UPDATE', () => {
   describe('SERVICE UPDATE POSITIVE', () => {
     before(async () => {
       getService = await serviceHelper.getServiceById(service.body.payload, process.env.TOKEN);
-      updateService = await serviceHelper.updateServiceById(service.body.payload, updatedData);
+      updateService = await serviceHelper.updateServiceById(service.body.payload, updatedData, process.env.TOKEN);
     });
 
     it('verify status code for update request is 200', () => {
@@ -55,7 +55,7 @@ describe('SERVICE UPDATE', () => {
         updateService = await serviceHelper.updateServiceById(service.body.payload, {
           ...serviceHelper.serviceData(vendorId),
           name: '',
-        });
+        }, process.env.TOKEN);
       });
 
       it('verify status code for update request is 400', () => {
@@ -77,7 +77,7 @@ describe('SERVICE UPDATE', () => {
 
     describe('SERVICE UPDATE WITHOUT VENDOR ID', () => {
       before(async () => {
-        updateService = await serviceHelper.updateServiceById(service.body.payload, serviceHelper.serviceData(''));
+        updateService = await serviceHelper.updateServiceById(service.body.payload, serviceHelper.serviceData(''), process.env.TOKEN);
       });
 
       it('verify status code for update request is 400', () => {
@@ -98,7 +98,7 @@ describe('SERVICE UPDATE', () => {
         updateService = await serviceHelper.updateServiceById(service.body.payload, {
           ...serviceHelper.serviceData(vendorId),
           clientPrice: '',
-        });
+        }, process.env.TOKEN);
       });
 
       it('verify status code for update request is 400', () => {
@@ -123,7 +123,7 @@ describe('SERVICE UPDATE', () => {
         updateService = await serviceHelper.updateServiceById(service.body.payload, {
           ...serviceHelper.serviceData(vendorId),
           vendorPrice: '',
-        });
+        }, process.env.TOKEN);
       });
 
       it('verify status code for update request is 400', () => {
@@ -132,6 +132,31 @@ describe('SERVICE UPDATE', () => {
 
       it('verify update response message is - Service update error', () => {
         expect(updateService.body.message).to.eq('Service update error');
+      });
+
+      it('verify updated service success is false', () => {
+        expect(updateService.body.success).to.eq(false);
+      });
+
+      it('can`t update service without required vendorPrice field', () => {
+        expect(getService.body.payload.vendorPrice).to.not.eq('');
+      });
+    });
+
+    describe('SERVICE UPDATE WITHOUT AUTHORIZATION', () => {
+      before(async () => {
+        updateService = await serviceHelper.updateServiceById(service.body.payload, {
+          ...serviceHelper.serviceData(vendorId),
+          vendorPrice: '',
+        }, '');
+      });
+
+      it('verify status code for update request is 400', () => {
+        expect(updateService.statusCode).to.eq(400);
+      });
+
+      it('verify update response message is - Auth failed', () => {
+        expect(updateService.body.message).to.eq('Auth failed');
       });
 
       it('verify updated service success is false', () => {
