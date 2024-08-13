@@ -1,7 +1,7 @@
 import request from 'supertest';
 const chance = require('chance').Chance();
 
-export const companyData = {
+export const companyUpdateData = {
   companyName: chance.company(),
   email: chance.email(),
 };
