@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import * as user from '../../helpers/userHelper';
 import * as constants from '../../helpers/constants';
 
-describe.only('UPDATE USER', () => {
+describe('UPDATE USER', () => {
   let resUpdateUser, resGetUser, resGetUpdatedUser, userID;
   before(async () => {
     await user.register(user.userData);
@@ -99,6 +99,54 @@ describe.only('UPDATE USER', () => {
   
       });
 
+      describe('NEGATIVE - Update user with invalid credentials first name', () => {
+        before(async () => {
+          resUpdateUser = await user.updateUser(userID, { ...user.userUpdateData, firstName: '123' });
+          resGetUpdatedUser = await user.getUser(userID);
+        });
+  
+        it('verify status code', async () => {
+          expect(resUpdateUser.status).to.eq(400);
+        });
+  
+        it('verify response message', async () => {
+          expect(resUpdateUser.body.message).to.eq('User update error');
+        });
+  
+        it('verify error message', async () => {
+          expect(resUpdateUser.body.payload.message).to.eq('Validation failed: firstName: Path `firstName` is invalid (123).');
+        });
+  
+        it('verify user name not to equal empty', async () => {
+          expect(resGetUpdatedUser.body.payload.userName).not.to.eq('123');
+        });
+  
+      });
+  
+      describe('NEGATIVE - Update user with invalid credentials last name', () => {
+          before(async () => {
+            resUpdateUser = await user.updateUser(userID, { ...user.userUpdateData, lastName: '123' });
+            resGetUpdatedUser = await user.getUser(userID);
+          });
+    
+          it('verify status code', async () => {
+            expect(resUpdateUser.status).to.eq(400);
+          });
+    
+          it('verify response message', async () => {
+            expect(resUpdateUser.body.message).to.eq('User update error');
+          });
+  
+          it('verify error message', async () => {
+              expect(resUpdateUser.body.payload.message).to.eq('Validation failed: lastName: Path `lastName` is invalid (123).');
+          });
+    
+          it('verify user name not to equal empty', async () => {
+            expect(resGetUpdatedUser.body.payload.userName).not.to.eq('123');
+          });
+    
+        });
+
     describe('NEGATIVE - Update user with empty user email', () => {
       before(async () => {
         resUpdateUser = await user.updateUser(userID, { ...user.userUpdateData, email: '' });
@@ -122,6 +170,30 @@ describe.only('UPDATE USER', () => {
       });
 
     });
+
+    describe('NEGATIVE - Update user with invalid credentials user email', () => {
+        before(async () => {
+          resUpdateUser = await user.updateUser(userID, { ...user.userUpdateData, email: 'new/email.com' });
+          resGetUpdatedUser = await user.getUser(userID);
+        });
+  
+        it('verify status code', async () => {
+          expect(resUpdateUser.status).to.eq(400);
+        });
+  
+        it('verify response message', async () => {
+          expect(resUpdateUser.body.message).to.eq('User update error');
+        });
+  
+        it('verify error message', async () => {
+          expect(resUpdateUser.body.payload.message).to.eq('Validation failed: email: Path `email` is invalid (new/email.com).');
+        });
+  
+        it('verify user email not to equal empty', async () => {
+          expect(resGetUpdatedUser.body.payload.email).not.to.eq('new/email.com');
+        });
+  
+      });
 
     describe('NEGATIVE - Update user with invalid user id', () => {
       before(async () => {
