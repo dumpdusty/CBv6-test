@@ -23,7 +23,12 @@ export function getOrder(id){
   return request(process.env.BASE_URL)
     .get('order/' + id)
     .set('Authorization', process.env.TOKEN)
+}
 
+export function orderGetAll(token){
+  return request(process.env.BASE_URL)
+    .post('order/search')
+    .set('Authorization', token)
 }
 
 export function deleteOrder(id){
