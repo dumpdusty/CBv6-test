@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx mocha --spec test/**/*.spec.js",
-    "single": "npx mocha ./test/resetPassword.spec.js",
+    "single": "npx mocha ./test/orders/orderCreate.spec.js",
     "format": "npx prettier --write .",
     "lint": "prettier ./ --check",
     "pmrun": "newman run postman/CBv6.postman_collection.json -e postman/prod.postman_environment.json",
