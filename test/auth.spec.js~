@@ -15,7 +15,7 @@ describe('AUTHENTICATION', () => {
     });
 
     it('verify response body message', async () => {
-      expect(res.body.message).to.equal('Auth not success');
+      expect(res.body.message).to.equal('Auth success');
     });
   });
 
