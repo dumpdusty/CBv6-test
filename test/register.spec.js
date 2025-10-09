@@ -8,7 +8,6 @@ describe('REGISTER', () => {
   describe('register POSITIVE', () => {
     before(async () => {
       res = await register(signUpBody);
-      // console.log(res.request._data);
     });
 
     it('verify status code', async () => {
@@ -37,9 +36,11 @@ describe('REGISTER', () => {
       before(async () => {
         res = await register(noFirstNameData);
       });
+
       it('verify status code', () => {
         expect(res.status).to.eq(404);
       });
+
       it('verify response message', async () => {
         expect(res.body.message).contain('not created');
       });
@@ -51,9 +52,11 @@ describe('REGISTER', () => {
       before(async () => {
         res = await register(noLastNameData);
       });
+
       it('verify status code', () => {
         expect(res.status).to.eq(404);
       });
+
       it('verify response message', async () => {
         expect(res.body.message).contain('not created');
       });
@@ -64,9 +67,11 @@ describe('REGISTER', () => {
       before(async () => {
         res = await register(noEmailData);
       });
+
       it('verify status code', () => {
         expect(res.status).to.eq(404);
       });
+
       it('verify response message', async () => {
         expect(res.body.message).contain('not created');
       });
@@ -77,13 +82,14 @@ describe('REGISTER', () => {
       before(async () => {
         res = await register(noPasswordData);
       });
+
       it('verify status code', () => {
         expect(res.status).to.eq(400);
       });
+
       it('verify response message', async () => {
         expect(res.body.message).eq('Wrong password format');
       });
     });
-
   });
 });

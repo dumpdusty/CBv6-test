@@ -28,7 +28,7 @@ export function register(data) {
 }
 
 export function emailSearch(email) {
-  return request('https://clientbase-server-edu-dae6cac55393.herokuapp.com')
+  return request('https://cbserver.up.railway.app')
     .post('/email/search')
     .send({ email });
 }
