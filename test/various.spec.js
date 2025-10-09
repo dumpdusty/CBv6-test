@@ -1,12 +1,10 @@
 import * as generalHelper from '../helpers/generalHelper';
 import { expect } from 'chai';
 import request from 'supertest';
-
 describe('verify email trim on signup', () => {
   let res;
   const newEmail = '  user' + Date.now() + '@pirate.com ';
   const trimmedEmail = newEmail.trim();
-
   before(async () => {
     await generalHelper.signup(
       'Jack',
@@ -14,14 +12,11 @@ describe('verify email trim on signup', () => {
       newEmail,
       process.env.PASSWORD
     );
-
     res = await generalHelper.login(trimmedEmail, process.env.PASSWORD);
   });
-
   it('verify response code', async () => {
     expect(res.status).to.eq(200);
   });
-
   it('verify response message', async () => {
     expect(res.body.message).to.eq('Auth success');
   });
@@ -33,6 +28,7 @@ describe('verify email trim on signup', () => {
 3. confirm email
 4. login
 */
+
 describe('email confirmation', () => {
   let res, str, endPoint;
   const newEmail = 'pirate' + Date.now() + '@pirate.com';
@@ -47,31 +43,26 @@ describe('email confirmation', () => {
 
     // first login
     res = await generalHelper.login(newEmail, process.env.PASSWORD);
-
-    // console.log(`Role before email confirmation - ${res.body.payload.user.roles}`);
-
-    // console.log(`Actions before email confirmation - ${res.body.payload.acl}`);
-
+    console.log(`Role before email confirmation - ${res.body.payload.user.roles}`);
+    console.log(`Actions before email confirmation - ${ res.body.payload.acl }`);
+    
     //email search call
     str = await generalHelper.emailSearch(newEmail);
 
     // extract endpoint from email message
     endPoint = str.body.payload.items[0].message
       .split('\n')[4]
-      .split('https://clientbase.pasv.us')[1];
-
+      .split('https://clientbase.pasv.us/v6/')[1];
+    
     // confirm email
-    await request('https://clientbase-server-edu-dae6cac55393.herokuapp.com')
+    await request(process.env.BASE_URL)
       .get(endPoint)
       .send();
-
+    
     // login with confirmed email
     res = await generalHelper.login(newEmail, process.env.PASSWORD);
-
-    // console.log(`Role after email confirmation - ${res.body.payload.user.roles}`);
-
-    // console.log(`Actions after email confirmation - ${res.body.payload.acl}`);
-
+    console.log(`Role after email confirmation - ${res.body.payload.user.roles}`);
+    console.log(`Actions after email confirmation - ${res.body.payload.acl}`);
     expect(res.body.payload.user.roles).to.include('verified');
   });
 });

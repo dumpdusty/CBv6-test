@@ -7,7 +7,8 @@ describe('AUTHENTICATION', () => {
   describe('POSITIVE', () => {
  
     before(async () => {
-      res = await login(process.env.EMAIL, process.env.PASSWORD);
+      res = await login(process.env.EMAIL, process.env.PASSWORD)
+      console.log()
     });
 
     it('verify response status code', async () => {
@@ -15,7 +16,7 @@ describe('AUTHENTICATION', () => {
     });
 
     it('verify response body message', async () => {
-      expect(res.body.message).to.equal('Auth not success');
+      expect(res.body.message).to.equal('Auth success');
     });
   });
 
