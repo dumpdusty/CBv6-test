@@ -5,7 +5,6 @@ describe('VERIFY SIMPLE MATH FUNCTIONS', () => {
   it('verify sum works properly', () => {
     expect(5 + 5).to.eq(10);
     console.log(colors.yellow('This test verify sum'));
-    console.log('Hell'.green);
   });
 
   it('verify deduction works properly', () => {
